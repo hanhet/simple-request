@@ -11,7 +11,7 @@ import hmac
 reload(sys) 
 sys.setdefaultencoding('utf-8')
 
-broker = 'broker.hivemq.com'
+broker = 'iot.eclipse.org'
 topic = 'hanhet/simple-request'
 compose_file = 'test.yml'
 payload = ""
@@ -34,7 +34,7 @@ print req_id
 hash_id = hmac.new(key,req_id, hashlib.sha1)
 signature = hash_id.hexdigest()
 print signature
-client.connect(broker, keepalive=60,bind_address="")
+client.connect(broker)
 
 fp = open(compose_file, 'rb')
 byte = fp.read()
@@ -46,4 +46,4 @@ msg = base64.b64encode(byte)
 data =  {"sid": signature, "req": msg}
 payload = json.dumps(data)
 # print "%s" % payload
-client.publish(topic,"%s" % payload,qos=2,retain = True)
+paho.mqtt.client(topic, qos=2, payload)

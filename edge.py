@@ -17,12 +17,12 @@ password = ""
 
 def on_connect(mq, userdata, rc, _):
    #subscribe when connected.
-   mq.subscribe(topic)
+   mq.subscribe(topic, qos=2)
 
 def on_message(mq, userdata, msg):
    #print "topic: %s" % msg.topic
    #print "payload: %s" % msg.payload
-   #print "qos: %d" % msg.qos
+   print "qos: %d" % msg.qos
    js = json.loads(msg.payload)
    #print(type(js))
    fp = open(compose_file, "w")
@@ -44,7 +44,7 @@ def mqtt_client_thread():
    client.on_message = on_message
 
    try:
-       client.connect("iot.eclipse.org")
+       client.connect("broker.hivemq.com")
    except:
        print "MQTT Broker is not online. Connect later."
 

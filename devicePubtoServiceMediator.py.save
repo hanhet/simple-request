@@ -1,0 +1,32 @@
+import sys, os, time
+import json
+import base64
+import paho.mqtt.client as mqtt
+import paho mqtt.publish
+import utils
+import hashlib
+import hmac
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+broker = 'broker.hivemq.com'
+topic = 'request/offloading'
+payload = ""
+msg = ""
+key = 'signatured
+client_id = ""
+client = mqtt.Client(client_id=client_id)
+
+user = ""
+password = ""
+client.username_pw_set(user, password)
+
+req_id = utils.getHwAddr('eth0')+utils.getAddress('adr')
+print req_id
+hash_id = hmac.new(key,req_id, hashlib.sha1)
+signature = hash_id.hexdigest()
+print signature
+client.connect(broker,keepalive=60,bind_addrerss="")
+
+
