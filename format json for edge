@@ -1,0 +1,1 @@
+{client__id:{'memory':{'totalmem':totalmem,'remainmem':remainmem},'disk':{'totaldisk':totaldisk,'remaindisk':remaindisk}}}
