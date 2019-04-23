@@ -44,7 +44,6 @@ totaldiskcapcity = diskstatus.GetDiskstate()
 print totaldiskcapcity
 remaindiskcapcity = remaindiskcapcityUtils.GetremainDiskcapcity()
 print remaindiskcapcity
-#remaindiskcapacity = None
 # Generate service id
 req_id = utils.getHwAddr()+utils.getAddress('adr')
 print req_id
@@ -52,15 +51,14 @@ hash_id = hmac.new(key,req_id, hashlib.sha1)
 signature = hash_id.hexdigest()
 print signature
 
-#data = {"client_id":signature,"memory":{"totalmem":totalmemoryperformance,"remainmem":remainmemoryperformance},"disk":{"totaldisk":totaldiskcapcity,"remaindisk":remaindiskcapcity}}
-data = {"client_id":signature}
+data = {"client_id":signature,"memory":{"totalmem":totalmemoryperformance,"remainmem":remainmemoryperformance},"disk":{"totaldisk":totaldiskcapcity,"remaindisk":remaindiskcapcity}}
+#data = {"client_id":signature}
 #print data
 payload = json.dumps(data)
 
 #client.connect(broker, keepalive=60,bind_address="")
 #client.publish(topic,payload,qos=2,retain = False)
 #print topic
-count+=1
 topic2 = prefix+'/register/response/'+signature
 #print topic2
 

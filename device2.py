@@ -26,12 +26,17 @@ client.username_pw_set(username, password)
 req_id = utils.getHwAddr()+utils.getAddress('adr')
 hash_id = hmac.new(key,req_id, hashlib.sha1)
 signature = hash_id.hexdigest()
-mem = input("How much mem do you  needs at least?")
-disk = input("How mush disk do you needs at least?")
-print type(mem)
-print type(disk)
-requestdata = {"client_id":signature,"memory":{"totalmem":str(mem),"remainmem":str(mem)},"disk":{"totaldisk":str(disk),"remaindisk":str(disk)}}
+mem = None
+disk = None
+inputnum = input("chioce a case")
+if inputnum==1:
+   mem = "200"
+   disk = "250"
+requestdata = {"client_id":signature,"memory":{"totalmem":mem,"remainmem":mem},"disk":{"totaldisk":disk,"remaindisk":disk}}
+if inputnum==2:
+   requestdata = {"client_id":signature}
 payload=json.dumps(requestdata)
+print requestdata
 topic2 = prefix+'/search/response/'+signature 
 print topic2
 def on_connect(mq, userdata, flag, rc):

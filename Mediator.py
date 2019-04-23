@@ -35,11 +35,13 @@ def on_message(mq, userdata, msg):
    if rx_topic == topic: # register/request
       dictstr = json.dumps(json.loads(msg.payload),ensure_ascii=False,encoding='utf-8')
       dict = json.loads(dictstr)
-      if dict.get('remaindisk')==None or dict.get('totaldisk')==None or dict.get('remainmem')==None or dict.get('totalmem')==None:
+      if dict.get('disk') == None:
+        payload = 100
+        print 'A'
+      elif dict.get('memory') == None:
         payload = 100
       else:
         payload = 200
-      print payload 
       client__id = dict['client_id']
       tx_topic = prefix+'/register/response/'+client__id
       client.publish(tx_topic,payload,qos=2,retain=False)
@@ -56,18 +58,21 @@ def on_message(mq, userdata, msg):
       dictstr = json.dumps(json.loads(msg.payload),ensure_ascii=False,encoding='utf-8')
       dict = json.loads(dictstr)
       # select edge
-      if dict.get('remaindisk')==None or dict.get('totaldisk')==None or dict.get('remainmem')==None or dict.get('totalmem')==None:
+      if dict.get('disk') == None:
          payload = 100
+         print "A"
+      elif dict.get('memory') == None:
+         payload = 100
+         print "B"
       else:
          payload = 200
+         print "C"
       client__id = dict['client_id']
+      tx_topic = prefix+'/search/response/'+client__id
+      client.publish(tx_topic,payload,qos=2,retain=False)
       remaindisk = (dict['disk']['remaindisk'])
       remainmem = (dict['memory']['remainmem'])
-      #device_request[client__id] = {}
-      tx_topic = prefix+'/search/response/'+client__id
-      print tx_topic
-      client.publish(tx_topic,payload,qos=2,retain=False)
-
+      
 def start_mediator():
    print 'Starting mediator ...'
    global client,mqtt_looping
